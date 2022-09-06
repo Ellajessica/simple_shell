@@ -1,11 +1,26 @@
 #include "shell.h"
 
+/**
+ * print - prints a string
+ *
+ * @var: pointer to the string
+ * @fd: file discriptor to print to
+ * Return: number of char to be printed
+ */
+
 int print(char *var, int fd)
 {
 	if (!var)
 		return (-1);
 	return (write(fd, var, _strlen(var)));
 }
+
+/**
+ * comment_remover - removes/ignores everything after a '#' char
+ * @input: input to be used
+ *
+ * Return: void
+ */
 
 void comment_remover(char *input)
 {
@@ -22,10 +37,24 @@ void comment_remover(char *input)
 	input[i] = '\0';
 }
 
+/**
+ * _putchar - print a character
+ * @c: character to print
+ *
+ * Return: 0
+ */
+
 int _putchar(char c)
 {
 	return (write(1, &c, 1));
 }
+
+/**
+ * _atoi - change string to an integer
+ * @s: the string to be changed
+ *
+ * Return: the converted int
+ */
 
 int _atoi(char *s)
 {
@@ -40,10 +69,16 @@ int _atoi(char *s)
 			n = (n * 10) + (*s - '0');
 		else if (n > 0)
 			break;
-	} while(*s++);
+	} while (*s++);
 	return (n);
 }
 
+/**
+ * _itoa - convert integer to string
+ * @num: the number to change
+ *
+ * Return: the converted string
+ */
 
 char *_itoa(int num)
 {

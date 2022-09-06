@@ -1,5 +1,12 @@
 #include "shell.h"
 
+/**
+ * _strlen - return the lenght of a string
+ * @s: string pointer
+ *
+ * Return: string lenght
+ */
+
 int _strlen(char *s)
 {
 	int i = 0;
@@ -8,6 +15,13 @@ int _strlen(char *s)
 		;
 	return (i);
 }
+/**
+ * _strcmp - compare two string
+ * @str1: first string to be compared
+ * @str2: second string to be compared
+ *
+ * Return: the diffrence of the two strings
+ */
 
 int _strcmp(char *str1, char *str2)
 {
@@ -18,7 +32,7 @@ int _strcmp(char *str1, char *str2)
 	if (len1 != len2)
 		return (-1);
 
-	while(str1[i])
+	while (str1[i])
 	{
 		if (str1[i] != str2[i])
 			return (-1);
@@ -26,6 +40,13 @@ int _strcmp(char *str1, char *str2)
 	}
 	return (0);
 }
+
+/**
+ * _strcat - concatenate src to dest
+ * @src: pointer to the source string
+ * @dest: pointer to the destination
+ * Return: dest
+ */
 
 char *_strcat(char *dest, char *src)
 {
@@ -45,6 +66,13 @@ char *_strcat(char *dest, char *src)
 	return (dest);
 }
 
+/**
+ * _strdup - duplicate a string
+ *
+ * @s: pointer to string
+ * Return: pointer to duplicate
+ */
+
 char *_strdup(char *s)
 {
 	int i;
@@ -62,6 +90,14 @@ char *_strdup(char *s)
 	res[i] = '\0';
 	return (res);
 }
+
+/**
+ * _strndup - duplicates a string
+ *
+ * @s: pointer to string
+ * @n: number to characters to duplicate
+ * Return: pointer to duplicate
+ */
 
 char *_strndup(char *s, int n)
 {

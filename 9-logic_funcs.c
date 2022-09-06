@@ -12,6 +12,7 @@ void execute_logic(char *args, shell_i *vary)
 		return;
 	}
 	command_type = check_command(command[0]);
+	replace_vars(command, vary);
 	shell_execute(command, command_type, vary);
 	free_tokenized(command);
 	free(args);

@@ -29,10 +29,7 @@ void quit(char **command, shell_i *p)
 		arg = _atoi(command[1]);
 		if (arg < 0)
 		{
-			print(p->shell_name, STDERR_FILENO);
-			print(": 1: exit: Illegal number: ", STDERR_FILENO);
-			print(command[1], STDERR_FILENO);
-			print("\n", STDERR_FILENO);
+			print_error(command, p);
 			p->error_status = 2;
 		}
 		else

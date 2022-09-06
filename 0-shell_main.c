@@ -1,11 +1,19 @@
 #include "shell.h"
 
+/**
+ * main - function for the shell
+ * @argc: argument count passed to attribute unused
+ * @argv: character array passed to the main function
+ *
+ * Return: 1 on success
+ */
 int main(int argc __attribute__((unused)), char **argv)
 {
 	shell_i vary;
 
 	init_shell(&vary);
 	vary.shell_name = argv[0];
+	vary.aliases = NULL;
 
 	shell_loop(&vary);
 	free_tokenized(environ);
@@ -19,6 +27,7 @@ shell_i *init_shell(shell_i *vary)
 	char **tmp;
 
 	vary->shell_name = NULL;
+	vary->aliases = NULL;
 	vary->old_pwd = NULL;
 	vary->error_status = 0;
 	vary->cmd_counter = 1;
@@ -35,6 +44,6 @@ shell_i *init_shell(shell_i *vary)
 	tmp[i] = NULL;
 	environ = tmp;
 
-	return(vary);
+	return (vary);
 }
 

@@ -1,53 +1,63 @@
 #include "shell.h"
 
+/**
+ * shell_loop - read a line from user input
+ *              check if the shell be ran interactively
+ *              remove comments from line if any
+ *              parse or tokenize the _getline
+ *              execute the parsed command
+ *              runs infinitfely unless user types exit or CTRL-D
+ * @vary: shell global variable
+ */
+
 void shell_loop(shell_i *vary)
 {
-	char *line, *op;
-	char **args, **logic_cmd;
+	char *line, *op, **args, **logic_cmd;
 	int i = 0;
 
 	signal(SIGINT, ctrl_C);
 	while (1)
-	{
-		non_interractive(vary);
+	{ non_interractive(vary);
 		print(" ($) ", STDOUT_FILENO);
 		line = _getline();
 		if (!_strlen(line))
-		{
-			free(line);
+		{ free(line);
 			if (isatty(STDIN_FILENO))
-				continue;
-		}
+				continue; }
 		if (!line)
 			if (isatty(STDIN_FILENO))
 				break;
 		comment_remover(line);
 		args = tokenize(line, ";");
 		while (args[i])
-		{
-			logic_cmd = logic_token(args[i++]);
+		{ logic_cmd = logic_token(args[i++]);
 			op = logic_cmd[1];
-			execute_logic(logic_cmd[0], vary);
-			vary->cmd_counter += 1;
-			if (!op)
-				continue;
-			if (_strcmp(op, AND_DELIM) == 0)
-			{
-				if (vary->error_status != 0)
-					logic_cmd = logic_token(logic_cmd[2]);
-				else
+			while (logic_cmd[0])
+			{ execute_logic(logic_cmd[0], vary);
+				vary->cmd_counter += 1;
+				if (!logic_cmd[2])
 					break;
+				if (_strcmp(op, AND_DELIM) == 0)
+				{
+					if (vary->error_status == 0)
+						logic_cmd = logic_token(logic_cmd[2]);
+					else
+						break; }
+				else if (_strcmp(op, OR_DELIM) == 0)
+				{
+					if (vary->error_status != 0)
+						logic_cmd = logic_token(logic_cmd[2]);
+					else
+						break; }
 			}
-			else if (_strcmp(op, OR_DELIM) == 0)
-			{
-				if (vary->error_status == 0)
-					logic_cmd = logic_token(logic_cmd[2]);
-				else
-					break;
-			} free(op);
 		} free_tokenized(args);
 	} free(line);
 }
+
+/**
+ * non_interractive - shell run in non interactive mode
+ * @p: shell global variable
+ */
 
 void non_interractive(shell_i *p)
 {
@@ -90,10 +100,16 @@ void non_interractive(shell_i *p)
 	}
 }
 
+/**
+ * check_command - determine the command type inputted
+ * @command: command to be checked
+ *
+ * Return: constant variable representing the type of command
+ */
 int check_command(char *command)
 {
 	int i = 0;
-	static char *int_cmd[] = {"exit", "cd", "env", "setenv", 
+	static char *int_cmd[] = {"exit", "cd", "env", "setenv",
 		"unsetenv", "alias", "help", NULL};
 	char *path = NULL;
 
@@ -116,6 +132,15 @@ int check_command(char *command)
 	}
 	return (INVALID_CMD);
 }
+
+/**
+ * shell_execute - launches the command to be executed
+ * @command: command to be launched
+ * @cmd_type: type of the command to be executed
+ * @vary: struct for old path and shell name
+ *
+ * Return: 1 always
+ */
 
 void shell_execute(char **command, int cmd_type, shell_i *vary)
 {
@@ -147,12 +172,18 @@ void shell_execute(char **command, int cmd_type, shell_i *vary)
 	vary->error_status = state / 256;
 }
 
-
+/**
+ * _strcpy - copy string from the source to another destination
+ * @dest: pointer to the string destination
+ * @src: Pointer to the source
+ *
+ * Return: 1 always
+ */
 char *_strcpy(char *dest, char *src)
 {
 	int i;
 
-	for(i = 0; src[i]; i++)
+	for (i = 0; src[i]; i++)
 		dest[i] = src[i];
 	dest[i] = '\0';
 

@@ -6,15 +6,19 @@ void print_error(char **commands, shell_i *build)
 
 	if (_strcmp(commands[0], "exit") == 0)
 	{
-		exit_error(commands, build);
+		error = exit_error(commands, build);
+	}
+	else if (_strcmp(commands[0], "alias") == 0)
+	{
+		error = alias_error(commands, build);
 	}
 	else if (_strcmp(commands[0], "cd") == 0)
 	{
 		error = chdir_error(commands, build);
 	}
-	else if (_strcmp(commands[0], "env") == 0)
+	else if (build->error_status == -1)
 	{
-		env_error(commands, build);
+		error = env_error(commands, build);
 	}
 	else
 	{
@@ -26,14 +30,56 @@ void print_error(char **commands, shell_i *build)
 
 char *env_error(char **cmd, shell_i *build)
 {
-	(void) cmd, (void) build;
-	return (NULL);
+	char *cmd_count = _itoa(build->cmd_counter), *msg;
+	char *res;
+	int len;
+
+	msg = ": Unable to add/remove from environment\n";
+	len = _strlen(cmd[0]) + _strlen(build->shell_name);
+	len += _strlen(cmd_count) + _strlen(msg) + 4;
+	res = malloc((len + 1) * sizeof(char));
+	if (!res)
+	{
+		free(cmd_count);
+		return (NULL);
+	}
+	_strcpy(res, build->shell_name);
+	_strcat(res, ": ");
+	_strcat(res, cmd_count);
+	_strcat(res, ": ");
+	_strcat(res, cmd[0]);
+	_strcat(res, msg);
+	_strcat(res, "\0");
+
+	free(cmd_count);
+	return(res);
 }
 
 char *exit_error(char **cmd, shell_i *build)
 {
-	(void) cmd, (void) build;
-	return (NULL);
+	char *cmd_count = _itoa(build->cmd_counter);
+	char *res;
+	int len;
+
+	len = _strlen(cmd[0]) + _strlen(build->shell_name);
+	len += _strlen(cmd_count) + _strlen(cmd[1]) + 23;
+	res = malloc((len + 1) * sizeof(char));
+	if (!res)
+	{
+		free(cmd_count);
+		return (NULL);
+	}
+	_strcpy(res, build->shell_name);
+	_strcat(res, ": ");
+	_strcat(res, cmd_count);
+	_strcat(res, ": ");
+	_strcat(res, cmd[0]);
+	_strcat(res, ": Illegal number: ");
+	_strcat(res, cmd[1]);
+	_strcat(res, "\n\0");
+	free(cmd_count);
+
+	return (res);
 }
 
 char *invalid_cmd_error(char **cmd, shell_i *build)
@@ -48,6 +94,7 @@ char *invalid_cmd_error(char **cmd, shell_i *build)
 	res = malloc((len + 1) * sizeof(char));
 	if (!res)
 	{
+		free(cmd_count);
 		return (NULL);
 	}
 
@@ -57,7 +104,8 @@ char *invalid_cmd_error(char **cmd, shell_i *build)
 	_strcat(res, ": ");
 	_strcat(res, cmd[0]);
 	_strcat(res, msg);
-
+	
+	free(cmd_count);
 	return (res);
 }
 
@@ -97,5 +145,6 @@ char *chdir_error(char **cmd, shell_i *build)
 		_strcat(res, cmd[1]);
 	}
 	_strcat(res, "\n"), _strcat(res, "\0");
+	free(cmd_count);
 	return (res);
 }

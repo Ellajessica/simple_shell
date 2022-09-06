@@ -100,7 +100,7 @@ int _unsetenv(char *key)
 	}
 
 	if (index == -1)
-		return (0);
+		return (-1);
 
 	temp = malloc(i * sizeof(char *));
 	if (!temp)
@@ -121,3 +121,37 @@ int _unsetenv(char *key)
 	return (0);
 }
 
+void replace_vars(char **args, shell_i *vary)
+{
+	int i = 0;
+	char *temp;
+
+	if (!args)
+		return;
+	for (; args[i]; i++)
+	{
+		if (args[i][0] != '$')
+			continue;
+		temp = _getenv(args[i] + 1);
+		if (temp)
+		{
+			free(args[i]);
+			args[i] = _strdup(temp);
+			continue;
+		}
+		if (_strlen(args[i] + 1) == 1)
+		{
+			switch (args[i][1])
+			{
+				case '$':
+					free(args[i]);
+					args[i] = _itoa(getpid());
+					break;
+				case '?':
+					free(args[i]);
+					args[i] = _itoa(vary->error_status);
+					break;
+			}
+		}
+	}
+}

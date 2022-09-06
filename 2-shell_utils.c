@@ -1,17 +1,27 @@
 #include "shell.h"
 
+/**
+ * ctrl_C - handles the signal rasied by CTRL-C
+ * @signum: signal number
+ */
+
 void ctrl_C(int signum)
 {
 	if (signum == SIGINT)
 		print("\n ($) ", STDIN_FILENO);
 }
 
+/**
+ * _getline - reads line from standard input
+ *
+ * Return: the line read
+ */
+
 char *_getline(void)
 {
 	int bufSize = READ_BUF, no_read, position = 0;
 
-	char *buffer = malloc(bufSize * sizeof(char));
-	char c;
+	char c, *buffer = malloc(bufSize * sizeof(char));
 
 	if (buffer == NULL)
 	{
@@ -46,15 +56,22 @@ char *_getline(void)
 			if (!buffer)
 			{
 				perror("Failed to re-allocate a space in the memory");
-				exit(EXIT_FAILURE);
-			}
+				exit(EXIT_FAILURE); }
 		}
 	}
 }
 
+/**
+ * execute - execute command based on it type
+ * @commands: processed character array
+ * @cmd_type: the type of command
+ * @p: shell global variables
+ */
+
 void execute(char **commands, int cmd_type, shell_i *p)
 {
 	void (*func)(char **command, shell_i *vary);
+
 	signal(SIGINT, SIG_DFL);
 	switch (cmd_type)
 	{
@@ -94,6 +111,12 @@ void execute(char **commands, int cmd_type, shell_i *p)
 	p->error_status = 0;
 }
 
+/**
+ * get_func - retrieves a function based on the command given and a mapping
+ * @command: string to check against the mapping
+ *
+ * Return: pointer to the proper function, or null on fail
+ */
 
 void (*get_func(char *command))(char **, shell_i *)
 {

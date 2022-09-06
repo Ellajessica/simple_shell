@@ -34,7 +34,8 @@ extern char **environ;
 /**
  * struct shell_data - Global data structure
  * @shell_name: the shell name at compile name
- * old_pwd: old path
+ * @old_pwd: old path
+ * @aliases: aliases
  * @cmd_counter: counts the number of cmds executed
  * @error_status: error status
  */
@@ -43,6 +44,7 @@ typedef struct shell_data
 {
 	char *shell_name;
 	char *old_pwd;
+	char **aliases;
 	int cmd_counter;
 	int error_status;
 } shell_i;
@@ -67,6 +69,8 @@ void display_help(char **, shell_i *);
 void handle_setenv(char **, shell_i *);
 void handle_unsetenv(char **, shell_i *);
 void aliasFunc(char **, shell_i *);
+void set_alias(char *, shell_i *);
+char *alias_error(char **, shell_i *);
 
 /* shell main*/
 int main(int, char **);
@@ -77,7 +81,7 @@ void ctrl_C(int);
 char *_getline(void);
 char **tokenize(char *, const char *);
 void shell_execute(char **, int, shell_i *);
-int check_command (char *);
+int check_command(char *);
 void execute(char **, int, shell_i *);
 void shell_loop(shell_i *);
 /* shell helper function*/
@@ -107,6 +111,7 @@ char *_getenv(char *);
 char *check_path(char *);
 int _setenv(char *, char *);
 int _unsetenv(char *);
+void replace_vars(char **, shell_i *);
 
 /* logic function,*/
 void execute_logic(char *, shell_i *);
@@ -115,7 +120,7 @@ char **logic_token(char *);
 
 int endsWith(char *, char *);
 int startsWith(char *, char *);
-char *_itoa(int );
+char *_itoa(int);
 
 /* error function*/
 void print_error(char **, shell_i *);
