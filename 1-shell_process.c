@@ -21,12 +21,16 @@ void shell_loop(shell_i *vary)
 		print(" ($) ", STDOUT_FILENO);
 		line = _getline();
 		if (!_strlen(line))
-		{ free(line);
+		{
+			free(line);
 			if (isatty(STDIN_FILENO))
-				continue; }
+				continue;
+		}
 		if (!line)
+		{
 			if (isatty(STDIN_FILENO))
 				break;
+		}
 		logic_token_help(line, vary);
 		free(line);
 	}

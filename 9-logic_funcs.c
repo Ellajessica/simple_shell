@@ -111,6 +111,5 @@ void logic_token_help(char *line, shell_i *vary)
 			}
 		}
 	}
-	free_tokenized(logic_cmd);
 	free_tokenized(args);
 }

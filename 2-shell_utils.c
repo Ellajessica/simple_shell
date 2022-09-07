@@ -26,6 +26,7 @@ char *_getline(void)
 	if (buffer == NULL)
 	{
 		perror("Failed to allocate memory");
+		free_tokenized(environ);
 		exit(EXIT_FAILURE);
 	}
 	while (1)
@@ -104,7 +105,6 @@ void execute(char **commands, int cmd_type, shell_i *p)
 			{
 				print_error(commands, p);
 				p->error_status = 2;
-				break;
 			}
 	}
 	p->error_status = 0;
