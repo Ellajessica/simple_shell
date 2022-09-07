@@ -77,9 +77,9 @@ void execute(char **commands, int cmd_type, shell_i *p)
 	{
 		case EXTERNAL_CMD:
 			{
-				if (execve(commands[0], commands, NULL) == -1)
+				if (execve(commands[0], commands, environ) == -1)
 				{
-					perror(_getenv("PWD"));
+					perror(p->shell_name);
 				free_tokenized(environ);
 				exit(2);
 				}
@@ -93,9 +93,9 @@ void execute(char **commands, int cmd_type, shell_i *p)
 			}
 		case PATH_CMD:
 			{
-				if (execve(check_path(commands[0]), commands, NULL) == -1)
+				if (execve(check_path(commands[0]), commands,environ) == -1)
 				{
-					perror(_getenv("PWD"));
+					perror(p->shell_name);
 						free_tokenized(environ);
 					exit(2);
 				}
