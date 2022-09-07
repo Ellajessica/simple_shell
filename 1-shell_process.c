@@ -91,10 +91,10 @@ void non_interractive(shell_i *p)
  */
 int check_command(char *command)
 {
-	int i = 0;
 	static char *int_cmd[] = {"exit", "cd", "env", "setenv",
 		"unsetenv", "alias", "help", NULL};
 	char *path = NULL;
+	int i = 0;
 
 	while (command[i])
 	{
@@ -126,10 +126,10 @@ int check_command(char *command)
 
 void shell_execute(char **command, int cmd_type, shell_i *vary)
 {
-	int state;
 	pid_t PID, W_PID __attribute__((unused));
+	int state;
 
-	if (cmd_type == EXTERNAL_CMD || cmd_type == PATH_CMD)
+	if (cmd_type == PATH_CMD || cmd_type == EXTERNAL_CMD)
 	{
 		PID = fork();
 

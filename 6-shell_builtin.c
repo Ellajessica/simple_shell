@@ -134,7 +134,7 @@ void display_help(char **command __attribute__((unused)),
 		"\tclear\n",
 		"\tsetenv\n",
 		"\tunsetenv\n",
-		"\nEvery other shell builtin are all supported\t",
+		"\nEvery other shell builtin are all supported\n",
 		"\nThanks for using our shell\n",
 		NULL
 	};

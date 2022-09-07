@@ -15,7 +15,7 @@
 #define READ_BUF 1024
 #define TOK_BUFSIZE 64
 
-#define DELIM " \a\t\r\n"
+#define DELIM " \t\r\n\a"
 #define AND_DELIM "&&"
 #define OR_DELIM "||"
 
@@ -25,9 +25,9 @@
 #define NOT_FOUND 0
 
 /* command type */
-#define INTERNAL_CMD 1
-#define EXTERNAL_CMD 2
-#define PATH_CMD 3
+#define EXTERNAL_CMD 1
+#define PATH_CMD 2
+#define INTERNAL_CMD 3
 #define INVALID_CMD -1
 
 /* declaring global environ variable*/

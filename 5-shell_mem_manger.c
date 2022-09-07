@@ -21,7 +21,7 @@ void *_realloc(void *ptr, unsigned int old, unsigned int new)
 		free(ptr);
 		return (NULL);
 	}
-	else if (new == old)
+	if (old == new)
 		return (ptr);
 	min = (old > new) ?
 		new :
