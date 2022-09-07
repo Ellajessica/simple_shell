@@ -41,7 +41,6 @@ char **tokenize(char *str, const char *delim)
 		while (!is_delimeter(delim, str[i]) && str[i])
 			arr[k][j++] = str[i++];
 		arr[k++][j] = '\0';
-
 		if (!str[i])
 			break;
 	}

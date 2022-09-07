@@ -63,3 +63,54 @@ char **logic_token(char *str)
 	res[2] = 0;
 	return (res);
 }
+
+/**
+ * logic_token_help - helper function to handle logic token
+ * @line: line entered by the user
+ * @vary: global shell variable
+ *
+ */
+
+void logic_token_help(char *line, shell_i *vary)
+{
+	int i = 0;
+	char **args, **logic_cmd, *op;
+
+	comment_remover(line);
+	args = tokenize(line, ";");
+
+	while (args[i])
+	{
+		logic_cmd = logic_token(args[i++]);
+		op = logic_cmd[1];
+		while (logic_cmd[0])
+		{
+			execute_logic(logic_cmd[0], vary);
+			vary->cmd_counter += 1;
+			if (!logic_cmd[2])
+				break;
+			if (_strcmp(op, AND_DELIM) == 0)
+			{
+				if (vary->error_status == 0)
+					logic_cmd = logic_token(logic_cmd[2]);
+				else
+				{
+					free_tokenized(logic_cmd);
+					break;
+				}
+			}
+			else if (_strcmp(op, OR_DELIM) == 0)
+			{
+				if (vary->error_status != 0)
+					logic_cmd = logic_token(logic_cmd[2]);
+				else
+				{
+					free_tokenized(logic_cmd);
+					break;
+				}
+			}
+		}
+	}
+	free_tokenized(logic_cmd);
+	free_tokenized(args);
+}

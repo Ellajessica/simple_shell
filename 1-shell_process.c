@@ -11,12 +11,12 @@
  */
 
 void shell_loop(shell_i *vary)
-{ char *line, *op, **args, **logic_cmd;
-	int i;
+{
+	char *line;
 
 	signal(SIGINT, ctrl_C);
 	while (1)
-	{ i = 0;
+	{
 		non_interractive(vary);
 		print(" ($) ", STDOUT_FILENO);
 		line = _getline();
@@ -27,31 +27,9 @@ void shell_loop(shell_i *vary)
 		if (!line)
 			if (isatty(STDIN_FILENO))
 				break;
-		comment_remover(line);
-		args = tokenize(line, ";");
-		while (args[i])
-		{ logic_cmd = logic_token(args[i++]);
-			op = logic_cmd[1];
-			while (logic_cmd[0])
-			{ execute_logic(logic_cmd[0], vary);
-				vary->cmd_counter += 1;
-				if (!logic_cmd[2])
-					break;
-				if (_strcmp(op, AND_DELIM) == 0)
-				{
-					if (vary->error_status == 0)
-						logic_cmd = logic_token(logic_cmd[2]);
-					else
-						break; }
-				else if (_strcmp(op, OR_DELIM) == 0)
-				{
-					if (vary->error_status != 0)
-						logic_cmd = logic_token(logic_cmd[2]);
-					else
-						break; }
-			}
-		} free_tokenized(args);
-	} free(line);
+		logic_token_help(line, vary);
+		free(line);
+	}
 }
 
 /**
@@ -74,25 +52,27 @@ void non_interractive(shell_i *p)
 		{
 			logic_cmd = logic_token(args[i++]);
 			op = logic_cmd[1];
-			execute_logic(logic_cmd[0], p);
-			p->cmd_counter += 1;
-			if (!op)
-				continue;
-			if (_strcmp(op, AND_DELIM) == 0)
+			while (logic_cmd[0])
 			{
-				if (p->error_status != 0)
-					logic_cmd = logic_token(logic_cmd[2]);
-				else
+				execute_logic(logic_cmd[0], p);
+				p->cmd_counter += 1;
+				if (!logic_cmd[2])
 					break;
+				if (_strcmp(op, AND_DELIM) == 0)
+				{
+					if (p->error_status == 0)
+						logic_cmd = logic_token(logic_cmd[2]);
+					else
+						break;
+				}
+				else if (_strcmp(op, OR_DELIM) == 0)
+				{
+					if (p->error_status != 0)
+						logic_cmd = logic_token(logic_cmd[2]);
+					else
+						break;
+				}
 			}
-			else if (_strcmp(op, OR_DELIM) == 0)
-			{
-				if (p->error_status == 0)
-					logic_cmd = logic_token(logic_cmd[2]);
-				else
-					break;
-			}
-			free(op);
 		}
 		free_tokenized(args);
 		free_tokenized(environ);
@@ -118,12 +98,10 @@ int check_command(char *command)
 		if (command[i++] == '/')
 			return (EXTERNAL_CMD);
 	}
-	i = 0;
-	while (int_cmd[i])
+	for (i = 0; int_cmd[i]; i++)
 	{
 		if (_strcmp(command, int_cmd[i]) == 0)
 			return (INTERNAL_CMD);
-		i++;
 	}
 	if (path)
 	{
@@ -157,7 +135,7 @@ void shell_execute(char **command, int cmd_type, shell_i *vary)
 		}
 		else if (PID < 0)
 		{
-			perror("failed to call fork");
+			perror("Error Creating fork");
 			return;
 		}
 		else

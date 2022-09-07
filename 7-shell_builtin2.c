@@ -66,7 +66,6 @@ void aliasFunc(char **args, shell_i *p)
 	{
 		if (p->aliases[i] == NULL)
 		{
-			print("\n", STDOUT_FILENO);
 			return;
 		}
 		while (p->aliases[i])
@@ -93,8 +92,7 @@ void aliasFunc(char **args, shell_i *p)
 			}
 			if (!p->aliases)
 			{
-				print_error(args, p);
-				p->error_status = 1;
+				print_error(args, p), p->error_status = 1;
 			}
 		}
 		else
@@ -133,7 +131,7 @@ void set_alias(char *key_val, shell_i *vary)
 		temp[i] = vary->aliases[i];
 	temp[i++] = _strdup(key_val);
 	temp[i] = NULL;
-	free_tokenized(vary->aliases);
+	free(vary->aliases);
 	vary->aliases = temp;
 	free_tokenized(tmp);
 	vary->error_status = 0;

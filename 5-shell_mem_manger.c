@@ -9,7 +9,7 @@
  * Return: pointer to the new buffer
  */
 
-void *_realloc(void *ptr, int old, int new)
+void *_realloc(void *ptr, unsigned int old, unsigned int new)
 {
 	void *tmp;
 	unsigned int i, min;
@@ -50,3 +50,13 @@ void free_tokenized(char **tokens)
 	free(tokens);
 }
 
+/**
+ * clear_memory - frees global memories
+ *
+ * @vary: global shell variable
+ */
+void clear_memory(shell_i *vary)
+{
+	free_tokenized(environ);
+	free_tokenized(vary->aliases);
+}

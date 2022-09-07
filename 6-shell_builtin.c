@@ -105,14 +105,13 @@ void ch_dir(char **command, shell_i *vary)
 		SETPWD(vary->old_pwd);
 		if (chdir(command[1]) < 0)
 		{
-			print_error(command, vary);
-			vary->error_status = 2;
+			print_error(command, vary), vary->error_status = 2;
 			return;
 		}
 	} vary->error_status = 0;
 }
 
-#define GETCWD
+#undef GETCWD
 
 /**
  * display_help - display help
@@ -136,7 +135,7 @@ void display_help(char **command __attribute__((unused)),
 		"\tsetenv\n",
 		"\tunsetenv\n",
 		"\nEvery other shell builtin are all supported\t",
-		"\nThanks for using our shell\t",
+		"\nThanks for using our shell\n",
 		NULL
 	};
 	int i = 0;

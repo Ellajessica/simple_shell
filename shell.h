@@ -13,6 +13,7 @@
 #include <dirent.h>
 
 #define READ_BUF 1024
+#define TOK_BUFSIZE 64
 
 #define DELIM " \a\t\r\n"
 #define AND_DELIM "&&"
@@ -104,7 +105,8 @@ int is_delimeter(const char *, char);
 char *_strndup(char *, int);
 
 /* shell memory management*/
-void *_realloc(void *, int, int);
+void *_realloc(void *, unsigned int, unsigned int);
+void clear_memory(shell_i *);
 
 /*environment path*/
 char *_getenv(char *);
@@ -116,7 +118,7 @@ void replace_vars(char **, shell_i *);
 /* logic function,*/
 void execute_logic(char *, shell_i *);
 char **logic_token(char *);
-
+void logic_token_help(char *, shell_i *);
 
 int endsWith(char *, char *);
 int startsWith(char *, char *);

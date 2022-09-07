@@ -13,11 +13,10 @@ int main(int argc __attribute__((unused)), char **argv)
 
 	init_shell(&vary);
 	vary.shell_name = argv[0];
-	vary.aliases = NULL;
 
 	shell_loop(&vary);
 	free_tokenized(environ);
-
+	free_tokenized(vary.aliases);
 	return (EXIT_SUCCESS);
 }
 

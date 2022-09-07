@@ -18,7 +18,7 @@ char *_getenv(char *path)
 	{
 		j = startsWith(envs[i], path);
 		if (j)
-			return (envs[i] + i + j);
+			return (envs[i] + 1 + j);
 	}
 	return (0);
 }
