@@ -110,6 +110,7 @@ void logic_token_help(char *line, shell_i *vary)
 				}
 			}
 		}
+	free(logic_cmd);
 	}
 	free_tokenized(args);
 }

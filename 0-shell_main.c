@@ -15,8 +15,7 @@ int main(int argc __attribute__((unused)), char **argv)
 	vary.shell_name = argv[0];
 
 	shell_loop(&vary);
-	free_tokenized(environ);
-	free_tokenized(vary.aliases);
+	clear_memory(&vary);
 	return (EXIT_SUCCESS);
 }
 

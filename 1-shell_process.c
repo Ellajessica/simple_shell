@@ -77,10 +77,12 @@ void non_interractive(shell_i *p)
 						break;
 				}
 			}
+			free(logic_cmd);
 		}
 		free_tokenized(args);
-		free_tokenized(environ);
 		free(line);
+		clear_memory(p);
+		exit(p->error_status);
 	}
 }
 /**
