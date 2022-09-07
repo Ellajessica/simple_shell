@@ -83,7 +83,6 @@ void non_interractive(shell_i *p)
 		free(line);
 	}
 }
-
 /**
  * check_command - determine the command type inputted
  * @command: command to be checked
@@ -107,6 +106,7 @@ int check_command(char *command)
 		if (_strcmp(command, int_cmd[i]) == 0)
 			return (INTERNAL_CMD);
 	}
+	path = check_path(command);
 	if (path)
 	{
 		free(path);
