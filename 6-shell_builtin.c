@@ -35,9 +35,8 @@ void quit(char **command, shell_i *p)
 		;
 	if (num_token == 1)
 	{
-		free_tokenized(command);
 		clear_memory(p);
-		exit(p->error_status);
+		p->exit = p->error_status;
 	}
 	else if (num_token == 2)
 	{
@@ -49,9 +48,8 @@ void quit(char **command, shell_i *p)
 		}
 		else
 		{
-			free_tokenized(command);
 			clear_memory(p);
-			exit(arg);
+			p->exit = arg;
 		}
 	}
 	else

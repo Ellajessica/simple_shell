@@ -32,7 +32,7 @@ shell_i *init_shell(shell_i *vary)
 
 	vary->shell_name = NULL;
 	vary->old_pwd = NULL;
-	vary->error_status = 0;
+	vary->error_status = -50;
 	vary->cmd_counter = 1;
 
 	for (i = 0; environ[i]; i++)

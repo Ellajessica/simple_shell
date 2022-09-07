@@ -33,6 +33,8 @@ void shell_loop(shell_i *vary)
 		}
 		logic_token_help(line, vary);
 		free(line);
+		if (vary->exit != -50)
+			exit(vary->exit);
 	}
 }
 

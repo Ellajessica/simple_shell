@@ -39,6 +39,7 @@ extern char **environ;
  * @aliases: aliases
  * @cmd_counter: counts the number of cmds executed
  * @error_status: error status
+ * @exit: signify exit
  */
 
 typedef struct shell_data
@@ -48,6 +49,7 @@ typedef struct shell_data
 	char **aliases;
 	int cmd_counter;
 	int error_status;
+	int exit;
 } shell_i;
 
 /**
