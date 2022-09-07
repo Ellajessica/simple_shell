@@ -1,5 +1,12 @@
 #include "shell.h"
 
+/**
+ * print_error - prints an error
+ *
+ * @commands: commands array
+ * @build: global shell variable
+ */
+
 void print_error(char **commands, shell_i *build)
 {
 	char *error;
@@ -28,6 +35,14 @@ void print_error(char **commands, shell_i *build)
 	free(error);
 }
 
+/**
+ * env_error - print env error
+ *
+ * @cmd: commands array
+ * @build: global shell variable
+ * Return: something
+ */
+
 char *env_error(char **cmd, shell_i *build)
 {
 	char *cmd_count = _itoa(build->cmd_counter), *msg;
@@ -52,8 +67,16 @@ char *env_error(char **cmd, shell_i *build)
 	_strcat(res, "\0");
 
 	free(cmd_count);
-	return(res);
+	return (res);
 }
+
+/**
+ * exit_error - print exit error
+ *
+ * @cmd: command array
+ * @build: global shell variable
+ * Return: something
+ */
 
 char *exit_error(char **cmd, shell_i *build)
 {
@@ -82,6 +105,14 @@ char *exit_error(char **cmd, shell_i *build)
 	return (res);
 }
 
+/**
+ * invalid_cmd_error - print invalid command error
+ *
+ * @cmd: commands array
+ * @build: global shell variable
+ * Return: something
+ */
+
 char *invalid_cmd_error(char **cmd, shell_i *build)
 {
 	char *cmd_count = _itoa(build->cmd_counter), *msg;
@@ -104,16 +135,24 @@ char *invalid_cmd_error(char **cmd, shell_i *build)
 	_strcat(res, ": ");
 	_strcat(res, cmd[0]);
 	_strcat(res, msg);
-	
+
 	free(cmd_count);
 	return (res);
 }
+
+/**
+ * chdir_error - print change directory error
+ * @cmd: commands array
+ * @build: global shell variable
+ * Return: error
+ */
 
 char *chdir_error(char **cmd, shell_i *build)
 {
 	char *cmd_count = _itoa(build->cmd_counter), *msg;
 	char *res, illegal[3];
 	int len_id, len;
+
 	if (cmd[1][0] == '_')
 	{
 		msg = ": Illegal option", len_id = 2;

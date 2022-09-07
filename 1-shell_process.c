@@ -11,13 +11,13 @@
  */
 
 void shell_loop(shell_i *vary)
-{
-	char *line, *op, **args, **logic_cmd;
-	int i = 0;
+{ char *line, *op, **args, **logic_cmd;
+	int i;
 
 	signal(SIGINT, ctrl_C);
 	while (1)
-	{ non_interractive(vary);
+	{ i = 0;
+		non_interractive(vary);
 		print(" ($) ", STDOUT_FILENO);
 		line = _getline();
 		if (!_strlen(line))

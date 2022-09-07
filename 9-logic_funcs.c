@@ -1,5 +1,12 @@
 #include "shell.h"
 
+/**
+ * execute_logic - Handles execution without logicall && or ||
+ * @args: command argument to be executed
+ * @vary: global shell variable
+ *
+ */
+
 void execute_logic(char *args, shell_i *vary)
 {
 	char **command;
@@ -17,6 +24,12 @@ void execute_logic(char *args, shell_i *vary)
 	free_tokenized(command);
 	free(args);
 }
+
+/**
+ * logic_token - split a string base on a string
+ * @str: string to split
+ * Return: pointer to new or NULL
+ */
 
 char **logic_token(char *str)
 {

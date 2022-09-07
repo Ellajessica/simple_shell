@@ -1,5 +1,12 @@
 #include "shell.h"
 
+/**
+ * _getenv - gets an environment variable
+ * @path: path of the variable
+ * Return: address of value of path if found
+ * null if not found
+ */
+
 char *_getenv(char *path)
 {
 	char **envs;
@@ -15,6 +22,14 @@ char *_getenv(char *path)
 	}
 	return (0);
 }
+
+/**
+ * check_path - find the path of a cmd
+ *
+ * @file: the command to find its full path
+ *
+ * Return: pointer to full path
+ */
 
 char *check_path(char *file)
 {
@@ -45,6 +60,13 @@ char *check_path(char *file)
 	free_tokenized(paths);
 	return (res);
 }
+
+/**
+ * _setenv - set an environment variable
+ * @key: keycof the variable
+ * @val: value of the variable
+ * Return: 0 success otherwise -1
+ */
 
 int _setenv(char *key, char *val)
 {
@@ -84,6 +106,13 @@ int _setenv(char *key, char *val)
 	return (0);
 }
 
+/**
+ * _unsetenv - unsets an environment variable
+ *
+ * @key: key of the variable
+ * Return: 0 success, otherwise -1
+ */
+
 int _unsetenv(char *key)
 {
 	int i = 0, j = 0, index = -1;
@@ -120,6 +149,13 @@ int _unsetenv(char *key)
 	environ = temp;
 	return (0);
 }
+
+/**
+ * replace_vars - replace variables in args
+ *
+ * @args: tokenized args
+ * @vary: shell global info variable
+ */
 
 void replace_vars(char **args, shell_i *vary)
 {

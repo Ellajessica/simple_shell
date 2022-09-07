@@ -1,5 +1,12 @@
 #include "shell.h"
 
+/**
+ * tokenize - split a string
+ * @str: pointer to string to be splitted
+ * @delim: caracter to split string
+ * Return: pointer to new or NULL
+ */
+
 char **tokenize(char *str, const char *delim)
 {
 	int k = 0, j = 0, i = 0, size = 0, lens[1200];
@@ -42,9 +49,18 @@ char **tokenize(char *str, const char *delim)
 	return (arr);
 }
 
+/**
+ * is_delimeter - checks if a character is in delimeter
+ * @delimeters: pointer to delimeter
+ * @c: character to check
+ *
+ * Return: 1 for true 0 for false
+ */
+
 int is_delimeter(const char *delimeters, char c)
 {
 	int i = 0;
+
 	if (!delimeters)
 		return (0);
 	while (delimeters[i])
@@ -55,6 +71,14 @@ int is_delimeter(const char *delimeters, char c)
 	}
 	return (0);
 }
+
+/**
+ * startsWith - check if s starts with ndl
+ * @s: the string to check
+ * @ndl: the string searched
+ * Return: 0 if false
+ *        else returns the next index after ndl in s
+ */
 
 int startsWith(char *s, char *ndl)
 {
@@ -70,6 +94,14 @@ int startsWith(char *s, char *ndl)
 	}
 	return (i);
 }
+
+/**
+ * endsWith - check if s ends with ndl
+ * @s: the string to check
+ * @ndl: the string searched
+ * Return: 0 if false
+ *        else retuens the index before ndl in s
+ */
 
 int endsWith(char *s, char *ndl)
 {

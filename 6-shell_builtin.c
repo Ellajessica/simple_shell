@@ -1,5 +1,12 @@
 #include "shell.h"
 
+/**
+ * env - prints the current environment
+ * @command: the entered command
+ *
+ * @p: shell global variable
+ */
+
 void env(char **command __attribute__((unused)), shell_i *p)
 {
 	int i;
@@ -11,6 +18,14 @@ void env(char **command __attribute__((unused)), shell_i *p)
 	}
 	p->error_status = 0;
 }
+
+/**
+ * quit - exits the shell
+ * @command: entered command
+ *
+ * @p: shell global variable
+ *
+ */
 
 void quit(char **command, shell_i *p)
 {
@@ -47,6 +62,12 @@ void quit(char **command, shell_i *p)
 
 #define SETPWD(V) (V = _strdup(_getenv("OLDPWD")))
 
+/**
+ * ch_dir - handles change directory command (cd)
+ * @command: command entered
+ * @vary: shell global variable
+ */
+
 void ch_dir(char **command, shell_i *vary)
 {
 	char *home;
@@ -68,13 +89,13 @@ void ch_dir(char **command, shell_i *vary)
 		{
 			SETPWD(vary->old_pwd);
 			if (chdir(home) < 0)
-				exit (EXIT_FAILURE);
+				exit(EXIT_FAILURE);
 		}
 		else
 		{
 			SETPWD(vary->old_pwd);
 			if (chdir(vary->old_pwd) < 0)
-				exit (EXIT_FAILURE);
+				exit(EXIT_FAILURE);
 		}
 		print(vary->old_pwd, STDOUT_FILENO);
 		print("\n", STDOUT_FILENO);
@@ -88,13 +109,19 @@ void ch_dir(char **command, shell_i *vary)
 			vary->error_status = 2;
 			return;
 		}
-	}
-	vary->error_status = 0;
+	} vary->error_status = 0;
 }
 
 #define GETCWD
 
-void display_help(char **command __attribute__((unused)), shell_i *p __attribute__((unused)))
+/**
+ * display_help - display help
+ * @command: command passed
+ * @p: shell global variable
+ */
+
+void display_help(char **command __attribute__((unused)),
+		shell_i *p __attribute__((unused)))
 {
 	static char *texts[] = {
 		"\n\t**Welcome to this Simple Shell Project**\n",

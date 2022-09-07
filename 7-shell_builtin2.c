@@ -1,4 +1,9 @@
 #include "shell.h"
+/**
+ * handle_setenv - sers an environment vary
+ * @args: entered command
+ * @p: shell global variable
+ */
 
 void handle_setenv(char **args, shell_i *p)
 {
@@ -17,6 +22,12 @@ void handle_setenv(char **args, shell_i *p)
 		print("setenv: invalid arguments\n", STDERR_FILENO);
 	p->error_status = 0;
 }
+
+/**
+ * handle_unsetenv - unsets an environment vary
+ * @args: entered command
+ * @p: shell global variable
+ */
 
 void handle_unsetenv(char **args, shell_i *p)
 {
@@ -41,13 +52,18 @@ void handle_unsetenv(char **args, shell_i *p)
 	p->error_status = 0;
 }
 
+/**
+ * aliasFunc - handles aliases for commands
+ * @args: entred command
+ * @p: shell global variable
+ */
+
 void aliasFunc(char **args, shell_i *p)
 {
 	int i = 0, j = 0;
-	printf("%s\t%s\n", args[0], args[1]);
-	if (args[1] == NULL)
+
+	if (args[1] == NULL && p->aliases)
 	{
-		printf("testing");
 		if (p->aliases[i] == NULL)
 		{
 			print("\n", STDOUT_FILENO);
@@ -68,13 +84,12 @@ void aliasFunc(char **args, shell_i *p)
 			j = 0;
 			while (p->aliases[j])
 			{
-				if(_strcmp(p->aliases[j], args[i]) == 0)
+				if (_strcmp(p->aliases[j], args[i]) == 0)
 				{
 					print(p->aliases[j], STDOUT_FILENO);
 					print("\n", STDOUT_FILENO);
 					break;
-				}
-				j++;
+				} j++;
 			}
 			if (!p->aliases)
 			{
@@ -84,9 +99,15 @@ void aliasFunc(char **args, shell_i *p)
 		}
 		else
 			set_alias(args[i], p);
-	}
-	p->error_status = 0;
+	} p->error_status = 0;
 }
+
+/**
+ * set_alias - set aliase according to a key value pair
+ * @key_val: key value pair to be set
+ * @vary: global struct shell variables
+ *
+ */
 
 void set_alias(char *key_val, shell_i *vary)
 {
@@ -94,13 +115,12 @@ void set_alias(char *key_val, shell_i *vary)
 	char *key = tmp[0];
 	int i = 0;
 
-	while (vary->aliases[i])
+	while (vary->aliases && vary->aliases[i])
 	{
 		if (startsWith(vary->aliases[i], key))
 		{
 			free(vary->aliases[i]);
-			vary->aliases[i] = key_val;
-			free(key);
+			vary->aliases[i] = _strdup(key_val);
 			free_tokenized(tmp);
 			return;
 		}
@@ -109,16 +129,23 @@ void set_alias(char *key_val, shell_i *vary)
 	temp = malloc((i + 2) * sizeof(char *));
 	if (!temp)
 		return;
-	for (i = 0; vary->aliases[i]; i++)
+	for (i = 0; vary->aliases && vary->aliases[i]; i++)
 		temp[i] = vary->aliases[i];
-	temp[i++] = key_val;
+	temp[i++] = _strdup(key_val);
 	temp[i] = NULL;
 	free_tokenized(vary->aliases);
 	vary->aliases = temp;
-	free(key);
 	free_tokenized(tmp);
 	vary->error_status = 0;
 }
+
+/**
+ * alias_error - print error message associated wirg alias
+ * @cmd: list of arguments supplied
+ * @vary: global struct shell variables
+ *
+ * Return: the error message
+ */
 
 char *alias_error(char **cmd, shell_i *vary __attribute__((unused)))
 {

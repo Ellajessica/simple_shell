@@ -1,5 +1,14 @@
 #include "shell.h"
 
+/**
+ * _realloc - reallocate memory to a buffer
+ * @ptr: pointer to buffer
+ * @new: new size of the buffer
+ * @old: old size of the buffer
+ *
+ * Return: pointer to the new buffer
+ */
+
 void *_realloc(void *ptr, int old, int new)
 {
 	void *tmp;
@@ -25,7 +34,11 @@ void *_realloc(void *ptr, int old, int new)
 	free(ptr);
 	return (tmp);
 }
-
+/**
+ * free_tokenized - free an array of arrays
+ *
+ * @tokens: pointer to array
+ */
 void free_tokenized(char **tokens)
 {
 	int i = 0;

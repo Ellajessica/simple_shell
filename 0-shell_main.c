@@ -21,13 +21,18 @@ int main(int argc __attribute__((unused)), char **argv)
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * init_shell - iniitialise shell
+ *
+ * @vary: shel global variable
+ * Return: shell vary
+ */
 shell_i *init_shell(shell_i *vary)
 {
 	int i;
 	char **tmp;
 
 	vary->shell_name = NULL;
-	vary->aliases = NULL;
 	vary->old_pwd = NULL;
 	vary->error_status = 0;
 	vary->cmd_counter = 1;
@@ -36,6 +41,8 @@ shell_i *init_shell(shell_i *vary)
 		;
 
 	tmp = malloc(sizeof(char *) * (i + 1));
+	vary->aliases = malloc(sizeof(char *));
+	vary->aliases[0] = NULL;
 
 	for (i = 0; environ[i]; i++)
 	{
